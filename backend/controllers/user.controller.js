@@ -2,6 +2,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import User from "../models/user.models.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+
 export const registerHandler = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
   if (!username || !email || !password) {

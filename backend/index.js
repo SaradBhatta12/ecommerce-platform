@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import userRoute from "./routes/user.routes.js";
 import productRoute from "./routes/product.routers.js";
 import adminRoute from "./routes/admin.routes.js";
+import catagoryRoute from "./routes/catagory.routes.js";
 import { connectDB } from "./utils/connectDB.js";
 
 const app = express();
@@ -15,7 +16,7 @@ const app = express();
 // CORS setup
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5174",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -34,6 +35,7 @@ connectDB();
 app.use("/user", userRoute);
 app.use("/product", productRoute);
 app.use("/admin", adminRoute);
+app.use("/catagory", catagoryRoute);
 
 // app.get("/", (req, res) => {
 //   res.cookie("hey", "hello", {
