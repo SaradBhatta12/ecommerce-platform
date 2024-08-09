@@ -6,8 +6,6 @@ export const IsAuthenticated = asyncHandler(async (req, res, next) => {
   const token = req.cookies.token;
 
   // Log the token to debug
-  console.log("Token: ", token);
-
   if (!token) {
     return res.status(401).json({
       success: false,
@@ -21,8 +19,6 @@ export const IsAuthenticated = asyncHandler(async (req, res, next) => {
     const uid = decoded.userid;
 
     // Log the decoded token to debug
-    console.log("Decoded Token: ", decoded);
-
     const user = await User.findById(uid);
     if (!user) {
       return res.status(400).json({
@@ -31,9 +27,6 @@ export const IsAuthenticated = asyncHandler(async (req, res, next) => {
         message: "User not found",
       });
     }
-
-    // Log the found user to debug
-    console.log("Authenticated User: ", user);
 
     req.user = user;
     next();

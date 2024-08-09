@@ -2,6 +2,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import User from "../models/user.models.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import generateToken from "../utils/TokenGenerate.js";
 
 export const registerHandler = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
@@ -20,16 +21,7 @@ export const registerHandler = asyncHandler(async (req, res) => {
     password: hashedPassword,
   });
   const userid = newUser.id;
-  const token = jwt.sign({ userid }, process.env.JWT_SECRET);
-  const expiryDate = new Date();
-  expiryDate.setTime(expiryDate.getTime() + 30 * 24 * 60 * 60 * 1000);
-
-  res.cookie("token", token, {
-    httpOnly: true,
-    sameSite: "none",
-    expires: expiryDate,
-    secure: true,
-  });
+  generateToken(res, userid);
   return res.status(201).json({
     message: "User created successfully",
     success: true,
@@ -52,16 +44,7 @@ export const loginHandler = asyncHandler(async (req, res) => {
   }
 
   const userid = userExist.id;
-  const token = jwt.sign({ userid }, process.env.JWT_SECRET);
-  const expiryDate = new Date();
-  expiryDate.setTime(expiryDate.getTime() + 30 * 24 * 60 * 60 * 1000);
-
-  res.cookie("token", token, {
-    httpOnly: true,
-    sameSite: "none",
-    expires: expiryDate,
-    secure: true,
-  });
+  generateToken(res, userid);
 
   return res.status(200).json({
     message: "User logged in successfully",
