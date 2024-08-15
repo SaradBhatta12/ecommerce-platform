@@ -39,7 +39,7 @@ const Login = () => {
       dispatch(setCredentials(res));
       navigate("/");
     } catch (err) {
-      toast.error(err.data?.message || "Login failed. Please try again.");
+      toast.error(err.data?.message || err?.message || "invalid crediantials ");
     }
   };
 

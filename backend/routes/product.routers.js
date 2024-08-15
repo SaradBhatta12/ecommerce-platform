@@ -10,16 +10,24 @@ import {
   updateProduct,
   GetTopProducts,
   GetTrendingProducts,
+  addProductReview,
+  filterProducts,
 } from "../controllers/products.controllers.js";
+
 const router = express.Router();
-router.route("/").post(formidable(), createProduct).get(GetAllProducts);
+router
+  .route("/")
+  .post(formidable(), IsAuthenticated, IsAdminCheck, createProduct)
+  .get(GetAllProducts);
 router
   .route("/:id")
-  .put(formidable(), updateProduct)
-  .patch(deleteProduct)
+  .put(formidable(), IsAuthenticated, IsAdminCheck, updateProduct)
+  .patch(IsAuthenticated, IsAdminCheck, deleteProduct)
   .get(getProduct);
 
 router.get("/top-products", GetTopProducts);
 router.get("/trending", GetTrendingProducts);
+router.post("/add-review", addProductReview);
+router.post("/filter", filterProducts);
 
 export default router;

@@ -18,7 +18,6 @@ const Home = () => {
   return (
     <div>
       <ToastContainer />
-      <Slidebar />
     </div>
   );
 };

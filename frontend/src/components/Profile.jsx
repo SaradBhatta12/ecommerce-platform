@@ -23,16 +23,8 @@ const Profile = () => {
       navigate("/login");
       return;
     } catch (err) {
-      let errorMessage = "An unknown error occurred";
-      if (err && err.data) {
-        errorMessage = err.data.error || err.data.message || errorMessage;
-      } else if (err && err.error) {
-        errorMessage = err.error;
-      } else if (err && err.status === "PARSING_ERROR") {
-        errorMessage = `Parsing Error: ${err.data}`;
-      }
-
-      toast.error(errorMessage);
+      console.log(err);
+      toast.error(err?.message || err?.data?.message8);
     }
   };
 

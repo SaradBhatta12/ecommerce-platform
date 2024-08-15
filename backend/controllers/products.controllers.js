@@ -143,47 +143,131 @@ export const getProduct = asyncHandler(async (req, res) => {
   });
 });
 export const GetAllProducts = asyncHandler(async (req, res) => {
-  const pageSize = 6;
-  const keyword = req.query.keyword
-    ? { name: { $regex: req.query.keyword, $options: "i" } }
-    : {};
-  const count = await product.countDocuments({ ...keyword });
-  const Products = await product.find({ ...keyword }).limit(pageSize);
+  try {
+    const pageSize = 6;
+    const keyword = req.query.keyword
+      ? { name: { $regex: req.query.keyword, $options: "i" } }
+      : {};
+    const count = await product.countDocuments({ ...keyword });
+    const Products = await product.find({ ...keyword }).limit(pageSize);
 
-  return res.json({
-    Products,
-    page: 1,
-    pages: Math.ceil(count / pageSize),
-    hasMore: false,
-  });
+    return res.json({
+      Products,
+      page: 1,
+      pages: Math.ceil(count / pageSize),
+      hasMore: false,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
+      success: false,
+      message: "unable to fetch products",
+      error,
+    });
+  }
 });
 export const GetTopProducts = asyncHandler(async (req, res) => {
-  const Products = await product.find({}).sort({ rating: -1 }).limit(4);
-  if (!Products) {
-    return res.status(404).json({
-      message: "unablet to find products",
+  try {
+    const Products = await product.find({}).sort({ rating: -1 }).limit(4);
+    if (!Products) {
+      return res.status(404).json({
+        message: "unablet to find products",
+        success: false,
+      });
+    }
+    res.json({
+      success: true,
+      message: "successfully fetched products",
+      status: 400,
+      Products,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({
       success: false,
+      message: "unable to fetch products",
+      error,
     });
   }
-  res.json({
-    success: true,
-    message: "successfully fetched products",
-    status: 400,
-    Products,
-  });
 });
 export const GetTrendingProducts = asyncHandler(async (req, res) => {
-  const Products = await product.find({}).sort({ createdAt: -1 }).limit(4);
-  if (!Products) {
-    return res.status(404).json({
-      message: "unablet to find products",
+  try {
+    const Products = await product.find({}).sort({ createdAt: -1 }).limit(4);
+    if (!Products) {
+      return res.status(404).json({
+        message: "unablet to find products",
+        success: false,
+      });
+    }
+    res.json({
+      success: true,
+      message: "successfully fetched products",
+      status: 400,
+      Products,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      success: false,
+      message: "unable to fetch products",
+      error,
+    });
+  }
+});
+export const addProductReview = asyncHandler(async (req, res) => {
+  try {
+    const { rating, comment } = req.body;
+    const Product = await product.findById(req.params.id);
+    if (Product) {
+      const alreadyReviewed = Product.reviews.find(
+        (r) => r.user.toString() === req.user._id.toString()
+      );
+      if (alreadyReviewed) {
+        res.status(400);
+        throw new Error("Product already reviewed");
+      }
+      const review = {
+        name: req.user.name,
+        rating: Number(rating),
+        comment,
+        user: req.user._id,
+      };
+      Product.reviews.push(review);
+      Product.numReviews = Product.reviews.length;
+      Product.rating =
+        Product.reviews.reduce((acc, review) => acc + review.rating, 0) /
+        Product.reviews.length;
+      await Product.save();
+      res.status(201).json({ message: "review added" });
+    } else {
+      res.status(404);
+      throw new Error("Product not found");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      success: false,
+      message: "unable to add review",
+      error,
+    });
+  }
+});
+export const filterProducts = asyncHandler(async (req, res) => {
+  try {
+    const { checked, radio } = req.body;
+    let args = {};
+    if (checked.length > 0) args.category = checked;
+    if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
+    const Products = await product.find(args);
+    res.json({
+      Products,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      status: 400,
+      message: "internal server error",
       success: false,
     });
   }
-  res.json({
-    success: true,
-    message: "successfully fetched products",
-    status: 400,
-    Products,
-  });
 });

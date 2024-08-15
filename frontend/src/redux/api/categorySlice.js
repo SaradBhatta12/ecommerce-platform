@@ -25,7 +25,7 @@ export const categorySlice = apiSlice.injectEndpoints({
       query: (data) => ({
         url: `${CATEGORY_URL}/${data.id}`,
         credentials: "include",
-        method: "DELETE",
+        method: "PATCH",
       }),
     }),
 

@@ -10,6 +10,7 @@ import productRoute from "./routes/product.routers.js";
 import adminRoute from "./routes/admin.routes.js";
 import catagoryRoute from "./routes/catagory.routes.js";
 import { connectDB } from "./utils/connectDB.js";
+import uploadRoute from "./routes/upload.routes.js";
 
 const app = express();
 
@@ -18,7 +19,7 @@ app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "PATCH", ["DELETE"]],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
@@ -28,22 +29,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+app.set("view engine", "ejs");
+
 // Connect to the database
 connectDB();
 
 // API routes
 app.use("/user", userRoute);
-app.use("/product", productRoute);
+app.use("/products", productRoute);
 app.use("/admin", adminRoute);
-app.use("/catagory", catagoryRoute);
+app.use("/category", catagoryRoute);
+app.use("/uploads", uploadRoute);
 
-// app.get("/", (req, res) => {
-//   res.cookie("hey", "hello", {
-//     sameSite: "none",
-//     maxAge: "2h",
-//   });
-// });
-// Start the server
 const RunningPORT = process.env.PORT || 3000;
 app.listen(RunningPORT, () => {
   console.log("application is running on port " + RunningPORT);

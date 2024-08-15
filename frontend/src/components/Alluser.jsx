@@ -55,7 +55,7 @@ const Alluser = () => {
   if (isError) return <div> Error: {error.data.message} </div>;
 
   return (
-    <div>
+    <div className="ml-14">
       <ToastContainer />
       <h1>User Table</h1>
       <UserTable columns={columns} data={data} />
