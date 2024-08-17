@@ -1,15 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { updateCart } from "../utils/cart";
+
 const initialState = localStorage.getItem("cart")
   ? JSON.parse(localStorage.getItem("cart"))
   : { cartItems: [], shippingAddress: {}, paymentMethod: "PayPal" };
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     addToCart: (state, action) => {
       const { user, rating, numReviews, reviews, ...item } = action.payload;
-      const existingItem = state.cartItems.map((x) => x._id === item._id);
+      const existingItem = state.cartItems.find((x) => x._id === item._id);
 
       if (existingItem) {
         state.cartItems = state.cartItems.map((x) =>
@@ -31,7 +33,7 @@ const cartSlice = createSlice({
     },
     savePaymentMethod: (state, action) => {
       state.paymentMethod = action.payload;
-      localStorage.state("cart", JSON.stringify(state));
+      localStorage.setItem("cart", JSON.stringify(state));
       return updateCart(state);
     },
     clearCartItems: (state) => {
@@ -39,7 +41,9 @@ const cartSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(state));
       return updateCart(state);
     },
-    resetCart: (state) => (state = initialState),
+    resetCart: (state) => {
+      return initialState;
+    },
   },
 });
 
@@ -51,4 +55,5 @@ export const {
   clearCartItems,
   resetCart,
 } = cartSlice.actions;
+
 export default cartSlice.reducer;

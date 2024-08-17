@@ -19,7 +19,7 @@ const Slidebar = () => {
           <Link to={"/"}>
             <FaHome />
           </Link>
-          <Link to={"/cart"}>
+          <Link to={"/product/cart"}>
             <FaCartPlus />
           </Link>
           <Link to={"/shopping"}>

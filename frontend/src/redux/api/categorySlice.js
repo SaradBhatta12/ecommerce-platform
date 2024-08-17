@@ -36,6 +36,14 @@ export const categorySlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+
+    getCategoryById: builder.query({
+      query: (id) => ({
+        url: `${CATEGORY_URL}/${id}`,
+        credentials: "include",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -44,4 +52,5 @@ export const {
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
   useGetallCategoryQuery,
+  useGetCategoryByIdQuery,
 } = categorySlice;

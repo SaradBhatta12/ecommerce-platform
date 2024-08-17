@@ -6,6 +6,7 @@ import {
   getllCatagory,
   updateCatagory,
   deleteCatagory,
+  getCategoryById,
 } from "../controllers/catagory.controller.js";
 const router = express.Router();
 
@@ -16,6 +17,7 @@ router
 router
   .route("/:id")
   .put(IsAuthenticated, IsAdminCheck, updateCatagory)
-  .patch(IsAuthenticated, IsAdminCheck, deleteCatagory);
+  .patch(IsAuthenticated, IsAdminCheck, deleteCatagory)
+  .get(getCategoryById);
 
 export default router;

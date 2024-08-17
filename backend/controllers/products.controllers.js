@@ -57,6 +57,7 @@ export const createProduct = asyncHandler(async (req, res) => {
 export const updateProduct = asyncHandler(async (req, res) => {
   const { name, image, brand, quantity, category, price, description } =
     req.fields;
+  console.log(name, req.params.id);
   try {
     switch (true) {
       case !name:

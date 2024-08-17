@@ -11,27 +11,10 @@ export const productSlice = apiSlice.injectEndpoints({
       }),
     }),
     updateProduct: builder.mutation({
-      query: ({
-        id,
-        name,
-        image,
-        brand,
-        quantity,
-        category,
-        price,
-        description,
-      }) => ({
+      query: ({ id, formdata }) => ({
         url: `/products/${id}`,
         method: "PUT",
-        body: {
-          name,
-          image,
-          brand,
-          quantity,
-          category,
-          price,
-          description,
-        },
+        body: formdata,
         credentials: "include",
       }),
     }),
@@ -51,6 +34,7 @@ export const productSlice = apiSlice.injectEndpoints({
     getSingleProduct: builder.query({
       query: (id) => ({
         url: `/products/${id}`,
+        method: "GET",
         credentials: "include",
       }),
     }),

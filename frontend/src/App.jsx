@@ -11,6 +11,10 @@ import Trending from "./components/products/Trending";
 import CreateCate from "./components/category/Createcate";
 import GetallForAdmin from "./components/products/GetallForAdmin";
 import Wrapper from "./components/Wrapper";
+import AllProducts from "./components/products/AllProducts";
+import Checkout from "./components/products/Checkout";
+import Cart from "./components/products/Cart";
+import CheckOutMain from "./components/products/CheckOutMain";
 
 const App = () => {
   return (
@@ -27,10 +31,14 @@ const App = () => {
       {/* Products Routes */}
       <Routes>
         <Route path="/product/create" element={<Create />} />
-        <Route path="/product/update" element={<Update />} />
+        <Route path="/product/:id" element={<Update />} />
+        <Route path="/product/all" element={<AllProducts />} />
+        <Route path="/product/checkout/:id" element={<Checkout />} />
+        <Route path="/product/cart" element={<Cart />} />
         <Route path="/products" element={<GetallForAdmin />} />
         <Route path="/product/top" element={<Top />} />
         <Route path="/product/trending" element={<Trending />} />
+        <Route path="/product/checkoutmain" element={<CheckOutMain />} />
       </Routes>
 
       <Routes>

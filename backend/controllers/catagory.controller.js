@@ -78,3 +78,22 @@ export const getllCatagory = asyncHandler(async (req, res) => {
     allCategory,
   });
 });
+
+export const getCategoryById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  if (!id) return "id is requied";
+  const category = await catagory.findById(id);
+  if (!category) {
+    return res.json({
+      success: false,
+      status: 200,
+      message: "unable to find category",
+    });
+  }
+
+  return res.json({
+    success: true,
+    status: 201,
+    category,
+  });
+});
