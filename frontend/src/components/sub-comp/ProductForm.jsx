@@ -67,6 +67,13 @@ const ProductForm = ({ categories }) => {
       >
         {/* Image Upload */}
         <div className="mb-4">
+          {image ? (
+            <div className="Preview flex justify-center items-center h-[100px] w-[100px] rounded object-cover object-center ">
+              <img src={image} alt={image} className="h-full w-full" />
+            </div>
+          ) : (
+            ""
+          )}
           <label className="block text-gray-700 font-bold mb-2">
             Product Image
           </label>

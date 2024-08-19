@@ -48,7 +48,7 @@ const Checkout = () => {
             className="lg:w-1/2 h-80 bg-cover bg-center"
             style={{ backgroundImage: `url(${product.image})` }}
           >
-            <img src={product.image} alt={product.name} className="hidden" />
+            <img src={product.image} alt={product.name} className="rounded" />
           </div>
           <div className="lg:w-1/2 p-6">
             <h1 className="text-3xl font-bold text-gray-800">{product.name}</h1>

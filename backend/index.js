@@ -41,6 +41,9 @@ app.use("/admin", adminRoute);
 app.use("/category", catagoryRoute);
 app.use("/uploads", uploadRoute);
 
+const __dirname = path.resolve();
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 const RunningPORT = process.env.PORT || 3000;
 app.listen(RunningPORT, () => {
   console.log("application is running on port " + RunningPORT);

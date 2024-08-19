@@ -6,6 +6,7 @@ import {
   useGetSingleProductQuery,
   useUpdateProductMutation,
   useUploadImageMutation,
+  useDeleteProductMutation,
 } from "../../redux/api/productSlice";
 import { useGetallCategoryQuery } from "../../redux/api/categorySlice";
 
@@ -23,6 +24,8 @@ const ProductForm = () => {
   const [updateProduct, { isLoading }] = useUpdateProductMutation();
   const { data } = useGetallCategoryQuery();
   const { data: productData } = useGetSingleProductQuery(id);
+  const [deleteProduct, { isLoading: DeleteLoading }] =
+    useDeleteProductMutation();
 
   useEffect(() => {
     if (data) {
@@ -50,7 +53,8 @@ const ProductForm = () => {
       const formData = new FormData();
       formData.append("image", file);
       const res = await uploadImage(formData);
-      setImage(res.data.image);
+      console.log(res);
+      setImage(res.data?.image);
       toast.success(res.data?.message || "Image upload successful");
     } catch (error) {
       console.log(error);
@@ -78,6 +82,17 @@ const ProductForm = () => {
       toast.error(
         error?.data?.message || error.message || "Something went wrong"
       );
+    }
+  };
+
+  const deleteProductHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await deleteProduct(id);
+      toast.success(res.data?.message || "deleted successfully product");
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.message || "internal server error ");
     }
   };
 
@@ -187,12 +202,19 @@ const ProductForm = () => {
         </div>
 
         {/* Submit Button */}
-        <div className="text-center">
+        <div className="text-center flex gap-3 ">
           <button
             type="submit"
             className="w-full md:w-auto bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 cursor-pointer transition duration-300"
           >
             {isLoading ? "Updating..." : "Update Product"}
+          </button>
+          <button
+            id={id}
+            onClick={deleteProductHandler}
+            className="w-full md:w-auto bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 cursor-pointer transition duration-300"
+          >
+            {DeleteLoading ? "Deleting..." : "Delete Product"}
           </button>
         </div>
       </form>

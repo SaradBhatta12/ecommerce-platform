@@ -11,10 +11,11 @@ const CartPage = () => {
       setCart(cartItems?.cartItems);
     }
   }, [cartItems]);
+
   const handleQuantityChange = (id, newQuantity) => {
     setCart(
       cart.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
+        item._id === id ? { ...item, quantity: newQuantity } : item
       )
     );
   };
@@ -41,12 +42,12 @@ const CartPage = () => {
             <div>
               {cart.map((item) => (
                 <div
-                  key={item.id}
+                  key={item._id}
                   className="flex justify-between items-center p-4 border-b"
                 >
                   <div className="flex items-center">
                     <img
-                      src={item.imageUrl}
+                      src={item.image}
                       alt={item.name}
                       className="w-20 h-20 object-cover rounded-lg"
                     />
@@ -59,19 +60,19 @@ const CartPage = () => {
                       <p className="text-gray-600">Price: ${item.price}</p>
                       <div className="flex items-center mt-2">
                         <label
-                          htmlFor={`quantity-${item.id}`}
+                          htmlFor={`quantity-${item._id}`}
                           className="text-gray-600 mr-2"
                         >
                           Quantity:
                         </label>
                         <input
-                          id={`quantity-${item.id}`}
+                          id={`quantity-${item._id}`}
                           type="number"
                           min="1"
                           value={item.quantity}
                           onChange={(e) =>
                             handleQuantityChange(
-                              item.id,
+                              item._id,
                               parseInt(e.target.value)
                             )
                           }

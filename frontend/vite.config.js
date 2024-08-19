@@ -8,7 +8,12 @@ export default defineConfig({
       "/api": {
         target: "http://localhost:3000",
         changeOrigin: true,
-        secure: true,
+        secure: false, // Consider setting this to false for development
+      },
+      "/uploads": {
+        target: "http://localhost:3000/",
+        changeOrigin: true,
+        secure: false, // Consider setting this to false for development
       },
     },
   },

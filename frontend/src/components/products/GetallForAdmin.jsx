@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const GetallForAdmin = () => {
   const [products, setProducts] = useState([]);
   const { data, isLoading, isError, error } = useGetallProductQuery();
+
   // Place useEffect here to avoid breaking hook order
   useEffect(() => {
     if (data && data.Products) {
