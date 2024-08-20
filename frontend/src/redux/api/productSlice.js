@@ -1,4 +1,5 @@
 import { filterProducts } from "../../../../backend/controllers/products.controllers";
+import { PRODUCT_URL } from "../constants";
 import { apiSlice } from "../api/apiSlice";
 export const productSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -62,7 +63,7 @@ export const productSlice = apiSlice.injectEndpoints({
     }),
     filterProducts: builder.mutation({
       query: ({ checked, radio }) => ({
-        url: "/products/filter",
+        url: `${PRODUCT_URL}/filter`,
         method: "POST",
         body: { checked, radio },
         credentials: "include",

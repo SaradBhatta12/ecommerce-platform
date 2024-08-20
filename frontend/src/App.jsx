@@ -15,6 +15,7 @@ import AllProducts from "./components/products/AllProducts";
 import Checkout from "./components/products/Checkout";
 import Cart from "./components/products/Cart";
 import CheckOutMain from "./components/products/CheckOutMain";
+import Shop from "./components/shop/Shop";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/alluser" element={<Alluser />} />
+        <Route path="/shop" element={<Shop />} />
       </Routes>
 
       {/* Products Routes */}
