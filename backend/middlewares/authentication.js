@@ -16,12 +16,10 @@ export const IsAuthenticated = asyncHandler(async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
     const uid = decoded.userId;
 
     // Log the decoded token to debug
     const user = await User.findById(uid);
-    console.log(user);
     if (!user) {
       return res.status(400).json({
         success: false,

@@ -63,9 +63,6 @@ const Card = ({ id, title, description, price, imageUrl, product }) => {
         // }}
         className="flex justify-between items-center p-4 bg-gray-50 border-t"
       >
-        <button className="w-full mr-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 py-2 px-4 rounded-lg transition duration-300">
-          Add to Cart
-        </button>
         <Link to={`/product/checkout/${id}`}>
           <button className="w-full ml-2 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 py-2 px-4 rounded-lg transition duration-300">
             Buy Now

@@ -1,13 +1,13 @@
-import { useFilterProductsMutation } from "../../redux/api/productSlice";
+import { useFilterProductsQuery } from "../../redux/api/productSlice";
 import { useGetallCategoryQuery } from "../../redux/api/categorySlice";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   setCategories,
   setChecked,
   setProducts,
 } from "../../redux/features/shop/shopSlice";
-import product from "../../../../backend/models/product.models";
 
 const Shop = () => {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const Shop = () => {
     (state) => state.shop
   );
   const categoryQuery = useGetallCategoryQuery();
-  const filteredProduct = useFilterProductsMutation({
+  const filteredProduct = useFilterProductsQuery({
     checked,
     radio,
   });
@@ -34,12 +34,14 @@ const Shop = () => {
       !filteredProduct.isLoading &&
       (!checked.length || !radio.length)
     ) {
-      const filteredProducts = filteredProduct.data.filter((product) => {
-        return (
-          product.price.toString().includes(priceFilter) ||
-          product.price === parseInt(priceFilter, 10)
-        );
-      });
+      const filteredProducts = filteredProduct?.data?.Products.filter(
+        (product) => {
+          return (
+            product.price.toString().includes(priceFilter) ||
+            product.price === parseInt(priceFilter, 10)
+          );
+        }
+      );
       dispatch(setProducts(filteredProducts));
     }
   }, [checked, radio, filteredProduct.data, dispatch, priceFilter]);
@@ -52,7 +54,7 @@ const Shop = () => {
 
   const handleBrandClick = (brand) => {
     if (filteredProduct.data) {
-      const productByBrand = filteredProduct.data.filter(
+      const productByBrand = filteredProduct?.data?.Products.filter(
         (product) => product.brand === brand
       );
       dispatch(setProducts(productByBrand));
@@ -66,17 +68,26 @@ const Shop = () => {
     dispatch(setChecked(updatedChecked));
   };
 
-  const uniqueBrands = filteredProduct.data
+  const uniqueBrands = filteredProduct?.data
     ? [
         ...Array.from(
           new Set(
-            filteredProduct.data
-              .map((product) => product.brand)
-              .filter((brand) => brand !== undefined)
+            filteredProduct?.data?.Products.map((product) => product.brand)
           )
         ),
       ]
     : [];
+
+  filteredProduct.isLoading ? (
+    <div className="loadi">loading.............</div>
+  ) : (
+    ""
+  );
+  filteredProduct.isErrror ? (
+    <div className="err">someting went wrong .</div>
+  ) : (
+    ""
+  );
 
   return (
     <div className="container mx-auto p-4">
@@ -139,12 +150,15 @@ const Shop = () => {
               <div className="text-center text-gray-500">No products found</div>
             ) : (
               products.map((p) => (
-                <div key={p._id} className="bg-white p-4 rounded-md shadow-md">
-                  <h3 className="text-lg font-semibold">{p.name}</h3>
-                  {console.log(products)}
-                  <p className="text-gray-600">{p.brand}</p>
-                  <p className="text-gray-900">${p.price}</p>
-                </div>
+                <Card
+                  key={`${Date.now() + Math.round(Math.random)}`}
+                  id={p._id}
+                  title={p.name}
+                  description={p.description}
+                  price={p.price}
+                  imageUrl={p.image}
+                  product={p}
+                />
               ))
             )}
           </div>
@@ -155,3 +169,44 @@ const Shop = () => {
 };
 
 export default Shop;
+
+const Card = ({ id, title, description, price, imageUrl, product }) => {
+  return (
+    <div
+      key={id}
+      className="card w-full max-w-xs bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+    >
+      <div className="h-48 w-full bg-gray-200 overflow-hidden">
+        <img
+          src={imageUrl}
+          alt={title}
+          className="object-cover object-center w-full h-full"
+        />
+      </div>
+      <div className="p-4 flex flex-col justify-between h-[200px]">
+        <div>
+          <h2 className="text-lg font-bold text-gray-800">{title}</h2>
+          <p className="text-gray-600 text-sm mt-2">
+            {description.split(" ").slice(0, 10).join(" ")}...
+          </p>
+        </div>
+        <div className="mt-4">
+          <p className="text-xl font-semibold text-gray-800">${price}</p>
+        </div>
+      </div>
+      <div
+        // onClick={() => {
+        //   const dispatch = useDispatch();
+        //   dispatch(addToCart(...product, product.quantity));
+        // }}
+        className="flex justify-between items-center p-4 bg-gray-50 border-t"
+      >
+        <Link to={`/product/checkout/${id}`}>
+          <button className="w-full ml-2 text-sm font-semibold text-white bg-green-600 hover:bg-green-700 py-2 px-4 rounded-lg transition duration-300">
+            Buy Now
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
+};

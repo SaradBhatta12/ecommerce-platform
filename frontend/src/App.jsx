@@ -22,7 +22,7 @@ const App = () => {
     <Router>
       <Wrapper />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<AllProducts />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
@@ -34,7 +34,7 @@ const App = () => {
       <Routes>
         <Route path="/product/create" element={<Create />} />
         <Route path="/product/:id" element={<Update />} />
-        <Route path="/product/all" element={<AllProducts />} />
+        {/* <Route path="/product/all" element={<AllProducts />} /> */}
         <Route path="/product/checkout/:id" element={<Checkout />} />
         <Route path="/product/cart" element={<Cart />} />
         <Route path="/products" element={<GetallForAdmin />} />

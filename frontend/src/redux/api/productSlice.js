@@ -61,9 +61,9 @@ export const productSlice = apiSlice.injectEndpoints({
         credentials: "include",
       }),
     }),
-    filterProducts: builder.mutation({
+    filterProducts: builder.query({
       query: ({ checked, radio }) => ({
-        url: `${PRODUCT_URL}/filter`,
+        url: `/products/filter`,
         method: "POST",
         body: { checked, radio },
         credentials: "include",
@@ -89,6 +89,6 @@ export const {
   useGetTopProductsQuery,
   useGetTrendingProductsQuery,
   useAddReviewMutation,
-  useFilterProductsMutation,
+  useFilterProductsQuery,
   useUploadImageMutation,
 } = productSlice;
