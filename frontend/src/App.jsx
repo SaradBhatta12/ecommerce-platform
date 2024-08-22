@@ -16,6 +16,7 @@ import Checkout from "./components/products/Checkout";
 import Cart from "./components/products/Cart";
 import CheckOutMain from "./components/products/CheckOutMain";
 import Shop from "./components/shop/Shop";
+import Test from "./components/shop/Test";
 
 const App = () => {
   return (
@@ -34,7 +35,7 @@ const App = () => {
       <Routes>
         <Route path="/product/create" element={<Create />} />
         <Route path="/product/:id" element={<Update />} />
-        {/* <Route path="/product/all" element={<AllProducts />} /> */}
+        <Route path="/test" element={<Test />} />
         <Route path="/product/checkout/:id" element={<Checkout />} />
         <Route path="/product/cart" element={<Cart />} />
         <Route path="/products" element={<GetallForAdmin />} />

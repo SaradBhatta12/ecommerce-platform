@@ -1,10 +1,13 @@
 import { useGetallProductQuery } from "../../redux/api/productSlice";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { FaH, FaHeart } from "react-icons/fa6";
+import { FaRegHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/cart/cartSlice";
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
+
   const { data: Products, isLoading, isError } = useGetallProductQuery();
 
   useEffect(() => {
@@ -33,17 +36,29 @@ const AllProducts = () => {
 export default AllProducts;
 
 const Card = ({ id, title, description, price, imageUrl, product }) => {
+  const [heart, setHeart] = useState(true);
   return (
     <div
       key={id}
       className="card w-full max-w-xs bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
     >
-      <div className="h-48 w-full bg-gray-200 overflow-hidden">
+      <div className="h-48 w-full bg-gray-200 overflow-hidden relative">
         <img
           src={imageUrl}
           alt={title}
-          className="object-cover object-center w-full h-full"
+          className="object-cover object-center w-full h-full "
         />
+        {heart ? (
+          <FaRegHeart
+            className="absolute right-4 top-4 text-white cursor-pointer"
+            onClick={() => setHeart(!heart)}
+          />
+        ) : (
+          <FaHeart
+            className="absolute right-4 top-4 text-white cursor-pointer"
+            onClick={() => setHeart(!heart)}
+          />
+        )}
       </div>
       <div className="p-4 flex flex-col justify-between h-[200px]">
         <div>

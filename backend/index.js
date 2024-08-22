@@ -9,6 +9,7 @@ import userRoute from "./routes/user.routes.js";
 import productRoute from "./routes/product.routers.js";
 import adminRoute from "./routes/admin.routes.js";
 import catagoryRoute from "./routes/catagory.routes.js";
+import orderRoute from "./routes/order.routes.js";
 import { connectDB } from "./utils/connectDB.js";
 import uploadRoute from "./routes/upload.routes.js";
 
@@ -39,6 +40,7 @@ app.use("/user", userRoute);
 app.use("/products", productRoute);
 app.use("/admin", adminRoute);
 app.use("/category", catagoryRoute);
+app.use("/order", orderRoute);
 app.use("/uploads", uploadRoute);
 
 const __dirname = path.resolve();

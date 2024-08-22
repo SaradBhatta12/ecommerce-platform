@@ -7,13 +7,17 @@ import {
   setCategories,
   setChecked,
   setProducts,
+  setfevProducts,
+  setRemovefevProduct,
 } from "../../redux/features/shop/shopSlice";
+import { FaHeart, FaRegHeart } from "react-icons/fa6";
 
 const Shop = () => {
   const dispatch = useDispatch();
   const { categories, products, checked, radio } = useSelector(
     (state) => state.shop
   );
+
   const categoryQuery = useGetallCategoryQuery();
   const filteredProduct = useFilterProductsQuery({
     checked,
@@ -21,6 +25,7 @@ const Shop = () => {
   });
   const [priceFilter, setPriceFilter] = useState("");
   const [cate, setCate] = useState([]);
+  const [abc, setAbc] = useState([]);
 
   useEffect(() => {
     if (!categoryQuery.isLoading && categoryQuery.data) {
@@ -78,6 +83,12 @@ const Shop = () => {
       ]
     : [];
 
+  useEffect(() => {
+    if (filteredProduct.data) {
+      setAbc(filteredProduct.data?.Products);
+    }
+  }, [filteredProduct]);
+
   filteredProduct.isLoading ? (
     <div className="loadi">loading.............</div>
   ) : (
@@ -96,7 +107,7 @@ const Shop = () => {
           <h2 className="text-lg text-white mb-4">Filter by Categories</h2>
           <div>
             {cate.map((c) => (
-              <div key={c._id} className="mb-2">
+              <div key={Math.round(Math.random * 100)} className="mb-2">
                 <label className="flex items-center text-white">
                   <input
                     type="checkbox"
@@ -171,17 +182,41 @@ const Shop = () => {
 export default Shop;
 
 const Card = ({ id, title, description, price, imageUrl, product }) => {
+  const [heart, setHeart] = useState(false);
+  const dispatch = useDispatch();
+
+  const addToFev = () => {
+    setHeart(!heart);
+    dispatch(setfevProducts(product));
+  };
+
+  const removeFromFev = () => {
+    setHeart(!heart);
+    dispatch(setRemovefevProduct(product));
+  };
+
   return (
     <div
       key={id}
       className="card w-full max-w-xs bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
     >
-      <div className="h-48 w-full bg-gray-200 overflow-hidden">
+      <div className="h-48 w-full bg-gray-200 overflow-hidden relative">
         <img
           src={imageUrl}
           alt={title}
           className="object-cover object-center w-full h-full"
         />
+        {heart ? (
+          <FaHeart
+            className="absolute right-4 top-4 text-white cursor-pointer"
+            onClick={removeFromFev}
+          />
+        ) : (
+          <FaRegHeart
+            className="absolute right-4 top-4 text-white cursor-pointer"
+            onClick={addToFev}
+          />
+        )}
       </div>
       <div className="p-4 flex flex-col justify-between h-[200px]">
         <div>

@@ -1,41 +1,28 @@
-import order from "../models/order.models.js";
-import product from "../models/product.models.js";
-import asyncHandler from "../utils/asyncHandler.js";
+import express from "express";
+const router = express.Router();
+import {
+  calculateTotalSale,
+  createOrder,
+  findOrderById,
+  getAllOrders,
+  getUserOrder,
+  MarkIsOrderDelevered,
+  MarkOrderAsPaid,
+  totalOrders,
+  totalSalesByDate,
+} from "../controllers/order.controller.js";
+import { IsAdminCheck } from "../middlewares/adminAuth.js";
+import { IsAuthenticated } from "../middlewares/authentication.js";
 
-export const createOrder = asyncHandler(async (req, res) => {
-  try {
-    const { orderItems, paymentMethod, shippingAddress } = req.body;
-    if (orderItems && orderItems.length === 0) {
-      res.status(400);
-      throw new Error("No order items");
-    }
-    const ProductFromDb = await product.find({
-      _id: { $in: orderItems.map((x) => x._id) },
-    });
-
-    const ItemsfromDB = orderItems.map((ItemFromClient) => {
-      const matchingItems = ProductFromDb.find((productDB) => {
-        productDB._id.toString() === ItemFromClient._id;
-      });
-
-      if (!matchingItems) {
-        res.status(404);
-        throw new Error("no product found" + ItemFromClient._id);
-      }
-
-      return {
-        ...ItemFromClient,
-        Product: ItemFromClient._id,
-        price: matchingItems.price,
-        _id: undefined,
-      };
-    });
-  } catch (error) {
-    console.log(error);
-    res.json({
-      success: false,
-      message: error.message,
-      status: 401,
-    });
-  }
-});
+router.route("/create-order").post(IsAuthenticated, createOrder);
+router.route("/get-all-orders").get(IsAuthenticated, getAllOrders);
+router.route("/get-user-order").get(IsAuthenticated, getUserOrder);
+router.route("/total-order").get(IsAuthenticated, totalOrders);
+router.route("/total-sale").post(IsAuthenticated, calculateTotalSale);
+router.route("/total-sales-bydate").get(IsAuthenticated, totalSalesByDate);
+router.route("/find-order").post(IsAuthenticated, findOrderById);
+router.route("/update-order").post(IsAuthenticated, MarkOrderAsPaid);
+router
+  .route("/update-order-delevery")
+  .post(IsAuthenticated, MarkIsOrderDelevered);
+export default router;
