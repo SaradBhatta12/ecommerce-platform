@@ -17,6 +17,7 @@ import Cart from "./components/products/Cart";
 import CheckOutMain from "./components/products/CheckOutMain";
 import Shop from "./components/shop/Shop";
 import Test from "./components/shop/Test";
+import Shipping from "./components/shipping/Shipping";
 
 const App = () => {
   return (
@@ -46,6 +47,11 @@ const App = () => {
 
       <Routes>
         <Route path="/category/create" element={<CreateCate />} />
+      </Routes>
+
+      {/* routes for order */}
+      <Routes>
+        <Route path="/shipping" element={<Shipping />} />
       </Routes>
     </Router>
   );
