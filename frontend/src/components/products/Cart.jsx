@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart } from "../../redux/cart/cartSlice";
+import { useNavigate } from "react-router";
 const CartPage = () => {
   const cartItems = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const [cart, setCart] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (cartItems) {
@@ -25,7 +27,7 @@ const CartPage = () => {
   };
 
   const handleCheckout = () => {
-    alert("Proceed to checkout with the items in your cart.");
+    navigate("/shipping");
   };
 
   const totalPrice = cart.reduce(

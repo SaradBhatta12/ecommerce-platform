@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import Placeholder from "./components/shipping/Placeholder";
 import Profile from "./components/Profile";
 import Alluser from "./components/Alluser";
 import Create from "./components/products/Create";
@@ -18,22 +19,22 @@ import CheckOutMain from "./components/products/CheckOutMain";
 import Shop from "./components/shop/Shop";
 import Test from "./components/shop/Test";
 import Shipping from "./components/shipping/Shipping";
+import NotFound from "./components/NotFound";
 
 const App = () => {
   return (
     <Router>
       <Wrapper />
       <Routes>
+        {/* General Routes */}
         <Route path="/" element={<AllProducts />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/alluser" element={<Alluser />} />
         <Route path="/shop" element={<Shop />} />
-      </Routes>
 
-      {/* Products Routes */}
-      <Routes>
+        {/* Product Routes */}
         <Route path="/product/create" element={<Create />} />
         <Route path="/product/:id" element={<Update />} />
         <Route path="/test" element={<Test />} />
@@ -43,17 +44,19 @@ const App = () => {
         <Route path="/product/top" element={<Top />} />
         <Route path="/product/trending" element={<Trending />} />
         <Route path="/product/checkoutmain" element={<CheckOutMain />} />
-      </Routes>
 
-      <Routes>
+        {/* Category Routes */}
         <Route path="/category/create" element={<CreateCate />} />
-      </Routes>
 
-      {/* routes for order */}
-      <Routes>
+        {/* Order Routes */}
         <Route path="/shipping" element={<Shipping />} />
+        <Route path="/placeorder" element={<Placeholder />} />
+
+        {/* Catch-all for 404 */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
 };
+
 export default App;

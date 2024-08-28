@@ -1,4 +1,3 @@
-import * as e from "express";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -21,11 +20,11 @@ const Shipping = () => {
   const dispatch = useDispatch();
 
   const submitHandler = (e) => {
-    // e.preventDefault();
-    // dispatch(saveShippingAddress({ address, city, postalCode, country }));
-    // dispatch(savePaymentMethod(paymentMethod));
-    // // navigate("/placeorder");
-    // console.log(cart);
+    e.preventDefault();
+    dispatch(saveShippingAddress({ address, city, postalCode, country }));
+    dispatch(savePaymentMethod(paymentMethod));
+    navigate(`/placeorder`);
+    console.log(cart);
   };
   return (
     <div className="ml-14 max-h-max max-w-full flex-col flex items-center ">

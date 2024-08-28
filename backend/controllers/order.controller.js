@@ -4,7 +4,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 
 const calculatePrice = (items) => {
   const itemsPrice = items.reduce(
-    (acc, item) => acc + item.price * item.qty,
+    (acc, item) => acc + item.price * item.quantity,
     0
   );
 

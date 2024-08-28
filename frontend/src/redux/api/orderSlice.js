@@ -3,11 +3,27 @@ import { ORDERS_URL } from "../constants";
 const OrderSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createOrder: builder.mutation({
-      query: (formdata) => ({
-        url: `${ORDERS_URL}/create_order`,
+      query: ({
+        orderItems,
+        shippingAddress,
+        paymentMethod,
+        itemsPrice,
+        shippingPrice,
+        taxPrice,
+        totalPrice,
+      }) => ({
+        url: `${ORDERS_URL}/create-order`,
         credentials: "include",
         method: "POST",
-        body: formdata,
+        body: {
+          orderItems,
+          shippingAddress,
+          paymentMethod,
+          itemsPrice,
+          shippingPrice,
+          taxPrice,
+          totalPrice,
+        },
       }),
     }),
     getOrders: builder.query({
